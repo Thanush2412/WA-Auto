@@ -38,30 +38,47 @@ function Test-Admin {
     return $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 }
 
-# Download function with progress
+# Download function with progress and retry
 function Download-FileWithProgress {
     param($Url, $OutputPath, $Description = "file")
     
     try {
         Write-ColorText "Downloading $Description..." -Color Yellow
         
-        $webClient = New-Object System.Net.WebClient
-        $webClient.Headers.Add("User-Agent", "WhatsApp-Automation-Installer")
+        # Try multiple methods for better compatibility
+        $success = $false
+        $maxRetries = 3
+        $retryCount = 0
         
-        # Register progress event
-        Register-ObjectEvent -InputObject $webClient -EventName "DownloadProgressChanged" -Action {
-            $percent = $Event.SourceEventArgs.ProgressPercentage
-            Write-Progress -Activity "Downloading $Description" -Status "$percent% Complete" -PercentComplete $percent
-        } | Out-Null
+        while (-not $success -and $retryCount -lt $maxRetries) {
+            try {
+                # Method 1: Use Invoke-WebRequest (more reliable)
+                $response = Invoke-WebRequest -Uri $Url -UseBasicParsing -TimeoutSec 30
+                [System.IO.File]::WriteAllBytes($OutputPath, $response.Content)
+                $success = $true
+            } catch {
+                $retryCount++
+                if ($retryCount -lt $maxRetries) {
+                    Write-ColorText "Retry $retryCount/$maxRetries..." -Color Yellow
+                    Start-Sleep -Seconds 2
+                } else {
+                    # Method 2: Fallback to WebClient
+                    try {
+                        $webClient = New-Object System.Net.WebClient
+                        $webClient.Headers.Add("User-Agent", "WhatsApp-Automation-Installer/1.0")
+                        $webClient.DownloadFile($Url, $OutputPath)
+                        $webClient.Dispose()
+                        $success = $true
+                    } catch {
+                        throw "All download methods failed: $($_.Exception.Message)"
+                    }
+                }
+            }
+        }
         
-        $webClient.DownloadFile($Url, $OutputPath)
-        $webClient.Dispose()
-        
-        Write-Progress -Activity "Downloading" -Completed
         Write-ColorText "OK Downloaded $Description successfully!" -Color Green
         return $true
     } catch {
-        Write-Progress -Activity "Downloading" -Completed
         Write-ColorText "X Failed to download $Description`: $_" -Color Red
         return $false
     }
@@ -127,16 +144,13 @@ Write-ColorText "OK Project structure created" -Color Green
 
 Show-Step "Downloading core files"
 
-# URLs for your files (replace with actual URLs where you host your files)
+# URLs for your files - only include files that actually exist
 $baseUrl = "https://raw.githubusercontent.com/Thanush2412/WA-Auto/main"
 $files = @{
     "start-app.ps1" = "$baseUrl/start-app.ps1"
     "Start WhatsApp Automation.bat" = "$baseUrl/Start%20WhatsApp%20Automation.bat"
     "package.json" = "$baseUrl/package.json"
     "package-portable.json" = "$baseUrl/package-portable.json"
-    "build-portable.js" = "$baseUrl/build-portable.js"
-    "README-PORTABLE.md" = "$baseUrl/README-PORTABLE.md"
-    "setup-complete-standalone.bat" = "$baseUrl/setup-complete-standalone.bat"
     "scripts\python\requirements.txt" = "$baseUrl/scripts/python/requirements.txt"
     "scripts\python\verify.py" = "$baseUrl/scripts/python/verify.py"
     "scripts\python\verify_portable.py" = "$baseUrl/scripts/python/verify_portable.py"
@@ -147,6 +161,7 @@ $files = @{
     "src\main\preload.js" = "$baseUrl/src/main/preload.js"
     "src\renderer\index.html" = "$baseUrl/src/renderer/index.html"
     "database\mongodb.js" = "$baseUrl/database/mongodb.js"
+    "README-PORTABLE.md" = "$baseUrl/README-PORTABLE.md"
 }
 
 $downloadSuccess = $true

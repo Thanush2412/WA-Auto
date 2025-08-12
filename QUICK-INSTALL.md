@@ -5,7 +5,7 @@
 **Copy and paste this single command in PowerShell (Run as Administrator):**
 
 ```powershell
-iex (iwr -useb 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/main/install.ps1').Content
+iex (iwr -useb 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/install.ps1').Content
 ```
 
 That's it! The installer will:
