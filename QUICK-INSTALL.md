@@ -2,6 +2,29 @@
 
 ## One-Command Installation
 
+### 🎯 Method 1: Full Installation (Recommended)
+**Copy and paste this single command in PowerShell (Run as Administrator):**
+
+```powershell
+iex (iwr -useb 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/main/install.ps1').Content
+```
+
+### ⚡ Method 2: Simple Installation (Fast)
+**For just the essential files:**
+
+```powershell
+iex (iwr -useb 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/main/simple-install.ps1').Content
+```
+
+### 🔄 Method 3: Alternative (if above fails)
+**Using different PowerShell syntax:**
+
+```powershell
+iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/Thanush2412/WA-Auto/main/install.ps1'))
+```k Installation Guide
+
+## One-Command Installation
+
 **Copy and paste this single command in PowerShell (Run as Administrator):**
 
 ```powershell
@@ -14,6 +37,14 @@ That's it! The installer will:
 - ✅ Install Python requirements
 - ✅ Set up the complete environment
 - ✅ Launch the application
+
+## 🔧 Installation Methods Explained
+
+| Method | Description | Use When |
+|--------|-------------|----------|
+| **Full Installation** | Downloads complete project structure | First-time installation, want all features |
+| **Simple Installation** | Downloads only essential files | Quick setup, minimal installation |
+| **Alternative** | Different PowerShell syntax | If Method 1 fails due to execution policy |
 
 ## What Users Need to Know
 
