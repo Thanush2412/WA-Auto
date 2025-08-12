@@ -28,6 +28,12 @@
 
 ### ⚡ Universal One-Line Installation
 
+**🔹 Chain Installer (NEW! - Downloads → Installs → Runs Everything!):**
+
+```powershell
+iex (iwr -useb 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/chain-install.ps1').Content
+```
+
 **🔹 Minimal Install (Essential files only - Quick start):**
 
 ```powershell
@@ -40,7 +46,13 @@ iex (iwr -useb 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/ins
 iex (iwr -useb 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/full-download.ps1').Content
 ```
 
-**Alternative for CMD users:**
+**Alternative for CMD users (Complete setup):**
+
+```cmd
+powershell -ExecutionPolicy Bypass -Command "iex (iwr 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/chain-install.ps1').Content"
+```
+
+**Alternative for CMD users (Essential files):**
 
 ```cmd
 curl -L https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/cmd-install.bat -o install.bat && install.bat
