@@ -6,6 +6,7 @@ WA-Auto/
 ├── 📋 QUICK-INSTALL.md                   # Quick installation guide
 ├── ⚡ install.ps1                        # Universal PowerShell installer
 ├── 🖥️ install.bat                        # CMD installer wrapper
+├── 👁️ install-tesseract.ps1              # Tesseract system-wide installer
 ├── ⚡ start-app.ps1                      # Main launcher script
 ├── 📦 package.json                       # Node.js dependencies
 ├── 🖥️ Start WhatsApp Automation.bat      # Windows launcher
@@ -104,7 +105,9 @@ curl -L https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/install.bat
 ### 🎯 Usage
 
 1. **First Run:** Automatically installs dependencies (Node.js packages, Python requirements)
-2. **Launch:** Double-click `Start WhatsApp Automation.bat` or run `.\start-app.ps1`
+2. **Tesseract OCR:** Automatically installs system-wide (if run as Administrator)
+3. **Launch:** Double-click `Start WhatsApp Automation.bat` or run `.\start-app.ps1`
+4. **Manual Tesseract Install:** Run `.\install-tesseract.ps1` as Administrator if needed
 3. **Setup:** Ensure WhatsApp Web is logged in on your browser
 4. **Automation:** Use the GUI to configure your automation tasks
 
