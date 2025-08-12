@@ -95,14 +95,14 @@ $TesseractLocation = ""
 if (Test-Path $ProgramFilesTesseract) {
     $TesseractFound = $true
     $TesseractLocation = $ProgramFilesTesseract
-    Write-Host "✅ Tesseract OCR found at: $ProgramFilesTesseract" -ForegroundColor Green
+    Write-Host "✅ Tesseract OCR found at: Program Files" -ForegroundColor Green
 } elseif (Test-Path $ProgramFilesx86Tesseract) {
     $TesseractFound = $true
     $TesseractLocation = $ProgramFilesx86Tesseract
-    Write-Host "✅ Tesseract OCR found at: $ProgramFilesx86Tesseract" -ForegroundColor Green
-}
-
-if (-not $TesseractFound) {
+    Write-Host "✅ Tesseract OCR found at: Program Files (x86)" -ForegroundColor Green
+} else {
+    Write-Host "❌ Tesseract OCR not found in Program Files" -ForegroundColor Red
+    
     if (Test-Path $LocalTesseractPath) {
         Write-Host "📦 Installing Tesseract OCR to Program Files..." -ForegroundColor Yellow
         try {
@@ -110,26 +110,27 @@ if (-not $TesseractFound) {
             $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")
             
             if ($isAdmin) {
-                # Copy Tesseract to Program Files
+                Write-Host "   📁 Copying Tesseract files..." -ForegroundColor Blue
                 Copy-Item $LocalTesseractPath $ProgramFilesTesseract -Recurse -Force
                 
-                # Add to system PATH
+                Write-Host "   🔗 Adding to system PATH..." -ForegroundColor Blue
                 $currentPath = [Environment]::GetEnvironmentVariable("PATH", "Machine")
                 if ($currentPath -notlike "*$ProgramFilesTesseract*") {
                     [Environment]::SetEnvironmentVariable("PATH", "$currentPath;$ProgramFilesTesseract", "Machine")
-                    Write-Host "✅ Tesseract OCR installed at: $ProgramFilesTesseract" -ForegroundColor Green
-                    Write-Host "✅ Added to system PATH" -ForegroundColor Green
-                } else {
-                    Write-Host "✅ Tesseract OCR installed at: $ProgramFilesTesseract" -ForegroundColor Green
                 }
                 
+                Write-Host "✅ Tesseract OCR installed successfully!" -ForegroundColor Green
+                Write-Host "📍 Location: $ProgramFilesTesseract" -ForegroundColor Blue
+                
                 # Remove local copy to save space
+                Write-Host "🗑️ Cleaning up local copy..." -ForegroundColor Blue
                 Remove-Item $LocalTesseractPath -Recurse -Force
-                Write-Host "🗑️ Removed local Tesseract copy (now available system-wide)" -ForegroundColor Blue
+                Write-Host "✅ Local copy removed (using system version)" -ForegroundColor Green
                 $TesseractLocation = $ProgramFilesTesseract
             } else {
-                Write-Host "⚠️ Administrator rights required to install Tesseract to Program Files" -ForegroundColor Yellow
+                Write-Host "⚠️ Administrator rights required for system-wide installation" -ForegroundColor Yellow
                 Write-Host "ℹ️ Tesseract will use local copy in project folder" -ForegroundColor Blue
+                Write-Host "💡 Run 'install-tesseract.ps1' as Administrator for system-wide access" -ForegroundColor Cyan
                 $TesseractLocation = $LocalTesseractPath
             }
         } catch {
@@ -138,14 +139,16 @@ if (-not $TesseractFound) {
             $TesseractLocation = $LocalTesseractPath
         }
     } else {
-        Write-Host "❌ Tesseract OCR folder not found in project" -ForegroundColor Red
+        Write-Host "❌ Tesseract OCR folder not found in downloaded files" -ForegroundColor Red
+        Write-Host "⚠️ OCR features may not work properly" -ForegroundColor Yellow
     }
-} else {
-    # Remove local copy if it exists (since system version is available)
-    if (Test-Path $LocalTesseractPath) {
-        Remove-Item $LocalTesseractPath -Recurse -Force
-        Write-Host "🗑️ Removed local Tesseract copy (using system version)" -ForegroundColor Blue
-    }
+}
+
+# Remove local copy if system version exists
+if ($TesseractFound -and (Test-Path $LocalTesseractPath)) {
+    Write-Host "🗑️ Removing local Tesseract copy (using system version)..." -ForegroundColor Blue
+    Remove-Item $LocalTesseractPath -Recurse -Force
+    Write-Host "✅ Local copy removed" -ForegroundColor Green
 }
 
 # Create desktop shortcut
@@ -170,18 +173,23 @@ Write-Host "╔═════════════════════�
 Write-Host "║                            🎉 INSTALLATION COMPLETE! 🎉                       ║" -ForegroundColor Green
 Write-Host "║                                                                              ║" -ForegroundColor Green
 Write-Host "║  ✅ Repository downloaded and extracted                                      ║" -ForegroundColor Green
-Write-Host "║  ✅ Dependencies installed                                                   ║" -ForegroundColor Green
+Write-Host "║  ✅ Node.js dependencies installed                                          ║" -ForegroundColor Green
+Write-Host "║  ✅ Python requirements installed                                           ║" -ForegroundColor Green
 Write-Host "║  ✅ Tesseract OCR configured                                                 ║" -ForegroundColor Green
 Write-Host "║  ✅ Desktop shortcut created                                                 ║" -ForegroundColor Green
 Write-Host "║                                                                              ║" -ForegroundColor Green
-Write-Host "║  📍 Location: $InstallPath" -ForegroundColor Green
+Write-Host "║  📍 Application Location: $([System.IO.Path]::GetFileName($InstallPath))" -ForegroundColor Green
 if ($TesseractLocation) {
     if ($TesseractLocation -like "*Program Files*") {
-        Write-Host "║  👁️ Tesseract: Installed in Program Files" -ForegroundColor Green
+        Write-Host "║  👁️ Tesseract OCR: Installed system-wide" -ForegroundColor Green
     } else {
-        Write-Host "║  👁️ Tesseract: Using local copy" -ForegroundColor Green
+        Write-Host "║  👁️ Tesseract OCR: Using local copy" -ForegroundColor Green
     }
+} else {
+    Write-Host "║  ⚠️ Tesseract OCR: Not found - OCR features disabled" -ForegroundColor Yellow
 }
+Write-Host "║                                                                              ║" -ForegroundColor Green
+Write-Host "║  🚀 Starting application automatically...                                   ║" -ForegroundColor Green
 Write-Host "╚══════════════════════════════════════════════════════════════════════════════╝" -ForegroundColor Green
 Write-Host ""
 

@@ -142,27 +142,32 @@ $LocalTesseractPath = "Tesseract-OCR"
 
 $TesseractFound = $false
 $TesseractLocation = ""
+$TesseractStatus = ""
 
 if (Test-Path $ProgramFilesTesseract) {
     $TesseractFound = $true
     $TesseractLocation = $ProgramFilesTesseract
-    Write-ColorText "OK Tesseract OCR found at: Program Files" -Color Green
+    $TesseractStatus = "System-wide (Program Files)"
+    Write-ColorText "OK Tesseract OCR found: Program Files" -Color Green
 } elseif (Test-Path $ProgramFilesx86Tesseract) {
     $TesseractFound = $true
     $TesseractLocation = $ProgramFilesx86Tesseract
-    Write-ColorText "OK Tesseract OCR found at: Program Files (x86)" -Color Green
+    $TesseractStatus = "System-wide (Program Files x86)"
+    Write-ColorText "OK Tesseract OCR found: Program Files (x86)" -Color Green
 } elseif (Test-Path $LocalTesseractPath) {
     $TesseractFound = $true
     $TesseractLocation = $LocalTesseractPath
-    Write-ColorText "OK Tesseract OCR found at: Local project folder" -Color Green
+    $TesseractStatus = "Local project folder"
+    Write-ColorText "OK Tesseract OCR found: Local project folder" -Color Green
+    Write-ColorText ">> Note: For system-wide access, run install-tesseract.ps1 as Administrator" -Color Yellow
 } else {
-    Write-ColorText "! Warning: Tesseract OCR not found" -Color Yellow
-    Write-ColorText ">> OCR features may not work properly" -Color Yellow
-    Write-ColorText ">> Run install-tesseract.ps1 as Administrator to install" -Color Yellow
+    Write-ColorText "! Warning: Tesseract OCR not found" -Color Red
+    Write-ColorText ">> OCR text recognition features will not work" -Color Yellow
+    Write-ColorText ">> Download and install Tesseract manually or run install-tesseract.ps1" -Color Yellow
 }
 
 if ($TesseractFound) {
-    # Try to get version
+    Write-ColorText ">> Testing Tesseract availability..." -Color Yellow
     try {
         $tesseractPath = if ($TesseractLocation -like "*Program Files*") { 
             Join-Path $TesseractLocation "tesseract.exe" 
@@ -171,13 +176,22 @@ if ($TesseractFound) {
         }
         
         if (Test-Path $tesseractPath) {
-            $version = & $tesseractPath --version 2>&1 | Select-Object -First 1
-            Write-ColorText "OK Tesseract version: $version" -Color Green
+            try {
+                $version = & $tesseractPath --version 2>&1 | Select-Object -First 1
+                if ($version -and $version -like "*tesseract*") {
+                    Write-ColorText "OK Tesseract version: $($version.Trim())" -Color Green
+                    Write-ColorText "OK Status: $TesseractStatus" -Color Green
+                } else {
+                    Write-ColorText "OK Tesseract executable found at: $TesseractStatus" -Color Green
+                }
+            } catch {
+                Write-ColorText "OK Tesseract executable available at: $TesseractStatus" -Color Green
+            }
         } else {
-            Write-ColorText "OK Tesseract OCR folder found" -Color Green
+            Write-ColorText "OK Tesseract folder available at: $TesseractStatus" -Color Green
         }
     } catch {
-        Write-ColorText "OK Tesseract OCR available" -Color Green
+        Write-ColorText "OK Tesseract available at: $TesseractStatus" -Color Green
     }
 }
 
