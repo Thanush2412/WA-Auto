@@ -14,16 +14,18 @@ iex (iwr -useb 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/ins
 curl -L https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/cmd-install.bat -o install.bat && install.bat
 ```
 
-### 🔧 Method 3: PowerShell (Full Installation)
-**For complete project setup:**
+### 🔧 Method 3: PowerShell (Full Repository Download)
+**Downloads ALL files from repository:**
 ```powershell
-iex (iwr -useb 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/install.ps1').Content
+iex (iwr -useb 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/full-download.ps1').Content
 ```
 
-### 🔄 Method 4: Alternative PowerShell
-**If Method 1 fails:**
-```powershell
-iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/simple-install.ps1'))
+### 🔄 Method 4: Git Clone (Complete setup)
+**For developers or complete setup:**
+```bash
+git clone https://github.com/Thanush2412/WA-Auto.git
+cd WA-Auto
+.\start-app.ps1
 ```k Installation Guide
 
 ## One-Command Installation
@@ -40,8 +42,8 @@ iex (iwr -useb 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/ins
 |--------|----------|------------------|----------|
 | **PowerShell Minimal** | Windows PowerShell | 3 essential files | Quick setup, most users |
 | **CMD** | Command Prompt | 3 essential files | Users who prefer CMD |
-| **PowerShell Full** | Windows PowerShell | 5+ files | Complete documentation |
-| **Alternative** | PowerShell | 3 essential files | Execution policy issues |
+| **PowerShell Full** | Windows PowerShell | ALL repository files | Complete setup with all features |
+| **Git Clone** | Git + PowerShell | Complete repository | Developers, full setup |
 
 ## ✅ What Gets Installed
 

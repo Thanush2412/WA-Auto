@@ -28,10 +28,16 @@
 
 ### ⚡ Universal One-Line Installation
 
-**Works in both CMD and PowerShell - Copy and paste:**
+**🔹 Minimal Install (Essential files only - Quick start):**
 
 ```powershell
 iex (iwr -useb 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/simple-install.ps1').Content
+```
+
+**🔹 Full Repository Download (All files - Complete setup):**
+
+```powershell
+iex (iwr -useb 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/full-download.ps1').Content
 ```
 
 **Alternative for CMD users:**
