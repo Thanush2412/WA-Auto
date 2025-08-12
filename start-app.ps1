@@ -132,7 +132,7 @@ try {
 }
 
 # Step 4: Start the application
-:StartApp
+function Start-Application {
 Show-Step "Step 4/4: Starting WhatsApp Automation V2..."
 Write-Host ""
 Write-ColorText ">>> Starting the application..." -Color Green
@@ -193,7 +193,7 @@ do {
             Write-Host ""
             Write-ColorText ">> Restarting application..." -Color Green
             Write-Host ""
-            goto StartApp
+            Start-Application
         }
         "2" {
             Write-Host ""
@@ -208,3 +208,7 @@ do {
         }
     }
 } while ($true)
+}
+
+# Main execution
+Start-Application
