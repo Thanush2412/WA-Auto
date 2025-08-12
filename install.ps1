@@ -142,26 +142,16 @@ Show-Step "Creating project structure"
 Create-ProjectStructure $InstallPath
 Write-ColorText "OK Project structure created" -Color Green
 
-Show-Step "Downloading core files"
+Show-Step "Downloading essential files"
 
-# URLs for your files - only include files that actually exist
+# Essential files only - confirmed to exist and needed for basic functionality
 $baseUrl = "https://raw.githubusercontent.com/Thanush2412/WA-Auto/main"
 $files = @{
     "start-app.ps1" = "$baseUrl/start-app.ps1"
     "Start WhatsApp Automation.bat" = "$baseUrl/Start%20WhatsApp%20Automation.bat"
     "package.json" = "$baseUrl/package.json"
-    "package-portable.json" = "$baseUrl/package-portable.json"
-    "scripts\python\requirements.txt" = "$baseUrl/scripts/python/requirements.txt"
-    "scripts\python\verify.py" = "$baseUrl/scripts/python/verify.py"
-    "scripts\python\verify_portable.py" = "$baseUrl/scripts/python/verify_portable.py"
-    "scripts\paste.vbs" = "$baseUrl/scripts/paste.vbs"
-    "scripts\send.vbs" = "$baseUrl/scripts/send.vbs"
-    "src\main\main.js" = "$baseUrl/src/main/main.js"
-    "src\main\main-portable.js" = "$baseUrl/src/main/main-portable.js"
-    "src\main\preload.js" = "$baseUrl/src/main/preload.js"
-    "src\renderer\index.html" = "$baseUrl/src/renderer/index.html"
-    "database\mongodb.js" = "$baseUrl/database/mongodb.js"
-    "README-PORTABLE.md" = "$baseUrl/README-PORTABLE.md"
+    "README.md" = "$baseUrl/README.md"
+    "QUICK-INSTALL.md" = "$baseUrl/QUICK-INSTALL.md"
 }
 
 $downloadSuccess = $true

@@ -26,12 +26,18 @@
 
 ## 🚀 Quick Start
 
-### ⚡ One-Line Installation (Recommended)
+### ⚡ Universal One-Line Installation
 
-**Copy and paste this command in PowerShell (Run as Administrator):**
+**Works in both CMD and PowerShell - Copy and paste:**
 
 ```powershell
-iex (iwr -useb 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/main/install.ps1').Content
+iex (iwr -useb 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/main/simple-install.ps1').Content
+```
+
+**Alternative for CMD users:**
+
+```cmd
+curl -L https://raw.githubusercontent.com/Thanush2412/WA-Auto/main/cmd-install.bat -o install.bat && install.bat
 ```
 
 **Alternative installation methods:**
