@@ -1,21 +1,22 @@
 @echo off
-title WhatsApp Automation V2 - Chain Installer
+title WhatsApp Automation V2 - Installer
 color 0A
 
 echo.
 echo ═══════════════════════════════════════════════════════════════════════════════
 echo                    🚀 WhatsApp Automation V2 🚀
-echo                      CHAIN INSTALLER v2.0
+echo                      Universal Installer
 echo                                                              
-echo         Downloads → Installs → Configures → Runs Everything!                
+echo         Downloads → Installs Dependencies → Runs Application                
 echo ═══════════════════════════════════════════════════════════════════════════════
 echo.
 
-echo [INFO] Starting chain installation...
+echo [INFO] Starting installation...
+echo.
 
-powershell -ExecutionPolicy Bypass -Command "iex (iwr 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/chain-install.ps1').Content"
+powershell -ExecutionPolicy Bypass -Command "iex (iwr 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/install.ps1').Content"
 
 echo.
-echo [INFO] Installation process completed.
+echo [INFO] Installation completed.
 echo Press any key to exit...
 pause >nul

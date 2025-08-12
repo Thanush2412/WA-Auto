@@ -1,6 +1,64 @@
 # 🚀 WhatsApp Automation V2
 
-[![PowerShell](https://img.shields.io/badge/PowerShell-5391FE?style=for-the-badge&logo=powershell&logoColor=white)](https://docs.microsoft.com/en-us/powershell/)
+[![PowerShell](https://img.shields.io/bad```
+WA-Auto/
+├── 📄 README.md                          # Main documentation
+├── 📋 QUICK-INSTALL.md                   # Quick installation guide
+├── ⚡ install.ps1                        # Universal PowerShell installer
+├── 🖥️ install.bat                        # CMD installer wrapper
+├── ⚡ start-app.ps1                      # Main launcher script
+├── 📦 package.json                       # Node.js dependencies
+├── 🖥️ Start WhatsApp Automation.bat      # Windows launcher
+├── 📦 package-portable.json              # Portable package config
+│
+├── 📂 docs/                              # Documentation
+│   ├── 📖 README-INSTALL.md             # Installation guide
+│   ├── 📖 README-PORTABLE.md            # Portable guide
+│   └── 📊 INSTALLATION-SUCCESS.md       # Success guide
+│
+├── 📂 src/                               # Source code
+│   ├── 📂 main/                          # Main process files
+│   │   ├── 🖥️ main.js                   # Electron main process
+│   │   ├── 🖥️ main-portable.js          # Portable main process
+│   │   ├── 🔗 preload.js                # Preload scripts
+│   │   ├── 📂 handlers/                  # Event handlers
+│   │   ├── 📂 services/                  # Core services
+│   │   └── 📂 utils/                     # Utility functions
+│   ├── 📂 renderer/                      # Frontend files
+│   │   ├── 🌐 index.html                # Main UI
+│   │   ├── 📂 css/                       # Stylesheets
+│   │   └── 📂 js/                        # Client-side scripts
+│   └── 📂 shared/                        # Shared utilities
+│
+├── 📂 scripts/                           # Automation scripts
+│   ├── 📄 paste.vbs                     # Clipboard automation
+│   ├── 📄 send.vbs                      # Send key automation
+│   ├── 🔧 build-portable.js             # Portable build script
+│   ├── 🛠️ setup-complete-standalone.bat # Standalone setup
+│   └── 📂 python/                       # Python utilities
+│       ├── 📋 requirements.txt          # Python dependencies
+│       ├── 🔍 verify.py                 # Verification script
+│       └── 🔍 verify_portable.py        # Portable verification
+│
+├── 📂 database/                          # Database files
+│   ├── 🗄️ mongodb.js                    # MongoDB connection
+│   ├── 📂 migrations/                   # Database migrations
+│   └── 📂 schemas/                      # Data schemas
+│
+├── 📂 assets/                            # Static assets
+│   ├── 🖼️ app_icon.png                  # Application icon
+│   ├── 🖼️ logo.png                      # Logo image
+│   └── 🖼️ not in whatsapp.png          # Fallback image
+│
+├── 📂 config/                            # Configuration files
+├── 📂 temp/                              # Temporary files
+│   └── 📄 messages.json                 # Message cache
+│
+└── 📂 Tesseract-OCR/                    # OCR engine
+    ├── 🔧 tesseract.exe                 # OCR executable
+    ├── 📂 tessdata/                     # Language data
+    └── 📚 [DLL files...]                # Required libraries
+```e/PowerShell-5391FE?style=for-the-badge&logo=powershell&logoColor=white)](https://docs.microsoft.com/en-us/powershell/)
 [![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![Electron](https://img.shields.io/badge/Electron-191970?style=for-the-badge&logo=Electron&logoColor=white)](https://www.electronjs.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
@@ -26,63 +84,22 @@
 
 ## 🚀 Quick Start
 
-### ⚡ Universal One-Line Installation
+### ⚡ One-Command Installation
 
-**🔹 Chain Installer (NEW! - Downloads → Installs → Runs Everything!):**
-
+**PowerShell (Recommended):**
 ```powershell
-iex (iwr -useb 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/chain-install.ps1').Content
+iex (iwr "https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/install.ps1").Content
 ```
 
-**🔹 Minimal Install (Essential files only - Quick start):**
-
-```powershell
-iex (iwr -useb 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/simple-install.ps1').Content
-```
-
-**🔹 Full Repository Download (All files - Complete setup):**
-
-```powershell
-iex (iwr -useb 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/full-download.ps1').Content
-```
-
-**Alternative for CMD users (Complete setup):**
-
+**CMD/Command Prompt:**
 ```cmd
-powershell -ExecutionPolicy Bypass -Command "iex (iwr 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/chain-install.ps1').Content"
+powershell -ExecutionPolicy Bypass -Command "iex (iwr 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/install.ps1').Content"
 ```
 
-**Alternative for CMD users (Essential files):**
-
+**Alternative CMD:**
 ```cmd
-curl -L https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/cmd-install.bat -o install.bat && install.bat
+curl -L https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/install.bat -o install.bat && install.bat
 ```
-
-**Alternative installation methods:**
-
-<details>
-<summary>📋 More Installation Options</summary>
-
-#### Method 2: Direct PowerShell
-```powershell
-iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/install.ps1'))
-```
-
-#### Method 3: Manual Download
-```powershell
-# Download and run installer
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/install.ps1" -OutFile "install.ps1"
-.\install.ps1
-```
-
-#### Method 4: Git Clone
-```bash
-git clone https://github.com/Thanush2412/WA-Auto.git
-cd WA-Auto
-.\start-app.ps1
-```
-
-</details>
 
 ### 🎯 Usage
 
