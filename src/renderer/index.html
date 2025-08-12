@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Automation</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/modal.css">
+    <link rel="stylesheet" href="css/dialog.css">
+    <link rel="stylesheet" href="css/process-overlay.css">
+    <link rel="stylesheet" href="css/mapping.css">
+    <link rel="stylesheet" href="css/queue-status.css">
+    <link rel="stylesheet" href="css/verification.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <h1>WhatsApp Automation</h1>
+            <div class="header-actions">
+                <button id="exportDataBtn" class="btn btn-secondary" title="Export All Data">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                    </svg>
+                    Export
+                </button>
+                <button id="importDataBtn" class="btn btn-secondary" title="Import All Data">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                        <path d="M8 0a.5.5 0 0 1 .5.5v8.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 9.293V.5A.5.5 0 0 1 8 0z"/>
+                    </svg>
+                    Import
+                </button>
+                <button id="refreshBtn" class="btn btn-refresh">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                        <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                    </svg>
+                    Refresh
+                </button>
+                <button id="settingsBtn" class="btn btn-settings">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
+                        <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/>
+                    </svg>
+                    Settings
+                </button>
+            </div>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="messages">Messages</button>
+            <button class="tab-btn" data-tab="import">Import</button>
+            <button class="tab-btn" data-tab="history">History</button>
+            <button class="tab-btn" data-tab="verify">Verify Numbers</button>
+        </div>
+
+        <div class="tab-container">
+            <!-- Messages Tab -->
+            <div id="messages" class="tab-content active">
+                <div class="tab-header">
+                    <h2>Message Queue <span id="messageCount" class="count-badge">0</span></h2>
+                    <div class="tab-actions">
+                        <button id="refreshBtn" class="btn btn-refresh" title="Refresh">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                        </button>
+                        <button id="queueMessageBtn" class="btn btn-success">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+                            Queue Message
+                        </button>
+                        <button id="clearQueueBtn" class="btn btn-danger">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                            Clear Queue
+                        </button>
+
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div id="messageList" class="message-list"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Import Tab -->
+            <div id="import" class="tab-content">
+                <div class="import-container">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Import Data</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="import-options">
+                                <div class="import-option">
+                                    <h3>Import Message Data</h3>
+                                    <p>Import message data from Excel (.xlsx, .xls) or CSV (.csv) files for sending messages and automatic verification</p>
+                                    <button id="importDataFileBtn" class="btn btn-primary">Select File</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Message Template</h2>
+                        </div>
+                        <div class="card-body">
+                            <p>Use placeholders in curly braces like <code>{placeholder_name}</code> in your template.</p>
+                            <p>Standard placeholders:</p>
+                            <ul class="placeholder-list">
+                                <li><code>{student_name}</code> - Student's name</li>
+                                <li><code>{receipt_no}</code> - Receipt number</li>
+                                <li><code>{amount}</code> - Payment amount</li>
+                                <li><code>{file_link}</code> - Link to receipt file</li>
+                            </ul>
+                            <p>You can add custom placeholders and they will be included in column mapping during import.</p>
+                            <textarea id="messageTemplate" class="template-editor" rows="8"></textarea>
+                        </div>
+                        <div class="card-footer">
+                            <button id="saveTemplateBtn" class="btn btn-primary">Save Template</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- History Tab -->
+            <div id="history" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Sent Messages <span id="historyCount" class="count-badge">0</span></h2>
+                        <div class="header-actions">
+                            <button id="clearHistoryBtn" class="btn btn-danger">Clear History</button>
+                            <button id="exportHistoryBtn" class="btn btn-secondary">Export History</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="historyList" class="message-list history-list">
+                            <!-- History will be populated here -->
+                            <div class="empty-state">
+                                <p>No sent messages</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Verify Numbers Tab -->
+            <div id="verify" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Verify WhatsApp Numbers</h2>
+                        <div class="header-actions">
+                            <button id="verifyAllBtn" class="btn btn-primary">Verify All</button>
+                            <button id="clearVerifiedBtn" class="btn btn-danger">Clear Results</button>
+                            <button id="exportVerifiedBtn" class="btn btn-secondary">Export Results</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="verify-options">
+                            <div class="verify-input-section">
+                                <h3>Add Numbers to Verify</h3>
+                                <div class="input-group">
+                                    <input type="text" id="phoneNumberInput" placeholder="Enter phone number (e.g., 9876543210)" class="form-control">
+                                    <button id="addNumberBtn" class="btn btn-success">Add</button>
+                                </div>
+                                <div class="bulk-input">
+                                    <textarea id="bulkNumbersInput" placeholder="Enter multiple numbers (one per line)&#10;9876543210&#10;9876543211&#10;9876543212" class="form-control" rows="4"></textarea>
+                                    <button id="addBulkNumbersBtn" class="btn btn-success">Add All</button>
+                                </div>
+                            </div>
+                            
+                            <div class="verify-status">
+                                <h3>Verification Status</h3>
+                                <div class="status-summary">
+                                    <div class="status-item">
+                                        <span class="status-label">Total:</span>
+                                        <span id="totalNumbers" class="status-value">0</span>
+                                    </div>
+                                    <div class="status-item">
+                                        <span class="status-label">Verified:</span>
+                                        <span id="verifiedNumbers" class="status-value verified">0</span>
+                                    </div>
+                                    <div class="status-item">
+                                        <span class="status-label">Not Verified:</span>
+                                        <span id="notVerifiedNumbers" class="status-value not-verified">0</span>
+                                    </div>
+                                    <div class="status-item">
+                                        <span class="status-label">Pending:</span>
+                                        <span id="pendingNumbers" class="status-value pending">0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="verificationList" class="verification-list">
+                            <!-- Verification results will be populated here -->
+                            <div class="empty-state">
+                                <p>No numbers to verify. Add some numbers to get started.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <span class="close-btn">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="settings-section">
+                    <h3>Notification Settings</h3>
+                    <div class="notification-settings">
+                        <div class="form-group toggle-container">
+                            <label for="notificationsEnabled">Enable Notifications:</label>
+                            <label class="switch">
+                                <input type="checkbox" id="notificationsEnabled" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <div class="notification-interval">
+                            <div class="form-group">
+                                <label for="notificationMinutes">Minutes:</label>
+                                <input type="number" id="notificationMinutes" min="0" max="59" value="15">
+                            </div>
+                            <div class="form-group">
+                                <label for="notificationSeconds">Seconds:</label>
+                                <input type="number" id="notificationSeconds" min="0" max="59" value="0">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="settings-section">
+                    <h3>Background Service</h3>
+                    <p>The app will continue to run in the background even when closed.</p>
+                    <p>You can access it from the system tray icon.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="saveSettingsBtn" class="btn btn-primary">Save Settings</button>
+                <button id="cancelSettingsBtn" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Message Details Modal -->
+    <div id="messageModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Message Details</h2>
+                <span class="close-btn">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="messageDetails">
+                    <!-- Message details will be populated here -->
+                </div>
+                <div class="preview-section">
+                    <h3>Message Preview</h3>
+                    <div id="messagePreview" class="message-preview"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="sendMessageBtn" class="btn btn-primary">Send Message</button>
+                <button id="snoozeMessageBtn" class="btn btn-secondary">Snooze</button>
+                <button id="closeMessageBtn" class="btn btn-secondary">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Snooze Modal -->
+    <div id="snoozeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Snooze Message</h2>
+                <span class="close-btn">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="snooze-options">
+                    <button class="btn btn-secondary snooze-option" data-minutes="15">15 minutes</button>
+                    <button class="btn btn-secondary snooze-option" data-minutes="30">30 minutes</button>
+                    <button class="btn btn-secondary snooze-option" data-minutes="60">1 hour</button>
+                    <button class="btn btn-secondary snooze-option" data-minutes="120">2 hours</button>
+                    <button class="btn btn-secondary snooze-option" data-minutes="1440">1 day</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Column Mapping Modal -->
+    <div id="mappingModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Map Columns</h2>
+                <span class="close-btn">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Please map your file columns to the message fields:</p>
+                <div id="columnMappingContainer" class="mapping-container">
+                    <!-- Column mapping will be populated here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="applyMappingBtn" class="btn btn-primary">Apply Mapping</button>
+                <button id="cancelMappingBtn" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/dialog.js"></script>
+    <!-- Process Overlay -->
+    <div id="processOverlay" class="process-overlay" style="display: none;">
+        <h3>WhatsApp Process</h3>
+        <ul class="process-steps">
+            <li id="step-open" class="process-step">
+                <span class="step-icon pending">1</span>
+                <span class="step-text">Opening WhatsApp</span>
+            </li>
+            <li id="step-search" class="process-step">
+                <span class="step-icon pending">2</span>
+                <span class="step-text">Searching Contact</span>
+            </li>
+            <li id="step-paste" class="process-step">
+                <span class="step-icon pending">3</span>
+                <span class="step-text">Pasting Text</span>
+            </li>
+            <li id="step-send" class="process-step">
+                <span class="step-icon pending">4</span>
+                <span class="step-text">Sending Message</span>
+            </li>
+        </ul>
+        <div class="progress-bar">
+            <div id="progressFill" class="progress-fill"></div>
+        </div>
+    </div>
+
+    <script src="js/renderer.js"></script>
+    
+
+</body>
+</html>

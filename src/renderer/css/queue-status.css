@@ -1,0 +1,28 @@
+/* Queue Status Styles */
+.queue-status {
+    background-color: var(--primary-dark);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-top: 5px;
+    display: inline-block;
+    font-weight: 500;
+    animation: pulse 1.5s infinite;
+}
+
+.queue-status span {
+    font-weight: bold;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+    100% {
+        opacity: 1;
+    }
+}

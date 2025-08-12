@@ -1,0 +1,6 @@
+pillow>=9.0.0
+pyautogui>=0.9.53
+pygetwindow>=0.0.9
+pytesseract>=0.3.8
+requests>=2.28.0
+pytz>=2022.1
