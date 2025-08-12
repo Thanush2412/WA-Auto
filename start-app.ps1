@@ -155,11 +155,47 @@ if (Test-Path $ProgramFilesTesseract) {
     $TesseractStatus = "System-wide (Program Files x86)"
     Write-ColorText "OK Tesseract OCR found: Program Files (x86)" -Color Green
 } elseif (Test-Path $LocalTesseractPath) {
-    $TesseractFound = $true
-    $TesseractLocation = $LocalTesseractPath
-    $TesseractStatus = "Local project folder"
     Write-ColorText "OK Tesseract OCR found: Local project folder" -Color Green
-    Write-ColorText ">> Note: For system-wide access, run install-tesseract.ps1 as Administrator" -Color Yellow
+    Write-ColorText ">> Installing to Program Files for system-wide access..." -Color Yellow
+    
+    try {
+        # Check if running as administrator
+        $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")
+        
+        if ($isAdmin) {
+            Write-ColorText "   📁 Copying Tesseract to Program Files..." -Color Blue
+            Copy-Item $LocalTesseractPath $ProgramFilesTesseract -Recurse -Force
+            
+            Write-ColorText "   🔗 Adding to system PATH..." -Color Blue
+            $currentPath = [Environment]::GetEnvironmentVariable("PATH", "Machine")
+            if ($currentPath -notlike "*$ProgramFilesTesseract*") {
+                [Environment]::SetEnvironmentVariable("PATH", "$currentPath;$ProgramFilesTesseract", "Machine")
+            }
+            
+            Write-ColorText "OK Tesseract installed to Program Files successfully!" -Color Green
+            
+            # Remove local copy to save space
+            Write-ColorText "   🗑️ Removing local copy..." -Color Blue
+            Remove-Item $LocalTesseractPath -Recurse -Force
+            Write-ColorText "OK Local copy removed (now using system version)" -Color Green
+            
+            $TesseractFound = $true
+            $TesseractLocation = $ProgramFilesTesseract
+            $TesseractStatus = "System-wide (Program Files)"
+        } else {
+            Write-ColorText "! Note: Administrator rights required for system-wide installation" -Color Yellow
+            Write-ColorText ">> Using local copy (run as Administrator to install system-wide)" -Color Yellow
+            $TesseractFound = $true
+            $TesseractLocation = $LocalTesseractPath
+            $TesseractStatus = "Local project folder"
+        }
+    } catch {
+        Write-ColorText "! Warning: Could not install to Program Files: $_" -Color Yellow
+        Write-ColorText ">> Using local copy" -Color Yellow
+        $TesseractFound = $true
+        $TesseractLocation = $LocalTesseractPath
+        $TesseractStatus = "Local project folder"
+    }
 } else {
     Write-ColorText "! Warning: Tesseract OCR not found" -Color Red
     Write-ColorText ">> OCR text recognition features will not work" -Color Yellow
