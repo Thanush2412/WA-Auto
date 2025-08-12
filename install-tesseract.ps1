@@ -24,7 +24,8 @@ Write-Host "🔧 Tesseract OCR System-Wide Installer" -ForegroundColor Cyan
 Write-Host "=======================================" -ForegroundColor Cyan
 Write-Host ""
 
-$SystemTesseractPath = "C:\Tesseract-OCR"
+$ProgramFilesTesseract = "C:\Program Files\Tesseract-OCR"
+$ProgramFilesx86Tesseract = "C:\Program Files (x86)\Tesseract-OCR"
 
 # Check if source exists
 if (-not (Test-Path $SourcePath)) {
@@ -35,11 +36,20 @@ if (-not (Test-Path $SourcePath)) {
     exit 1
 }
 
-# Check if already installed
-$TesseractInstalled = Get-Command "tesseract" -ErrorAction SilentlyContinue
-if ($TesseractInstalled) {
-    Write-Host "✅ Tesseract is already installed system-wide" -ForegroundColor Green
-    Write-Host "📍 Location: $($TesseractInstalled.Source)" -ForegroundColor Blue
+# Check if already installed in standard locations
+$TesseractFound = $false
+$ExistingLocation = ""
+
+if (Test-Path $ProgramFilesTesseract) {
+    $TesseractFound = $true
+    $ExistingLocation = $ProgramFilesTesseract
+} elseif (Test-Path $ProgramFilesx86Tesseract) {
+    $TesseractFound = $true
+    $ExistingLocation = $ProgramFilesx86Tesseract
+}
+
+if ($TesseractFound) {
+    Write-Host "✅ Tesseract is already installed at: $ExistingLocation" -ForegroundColor Green
     Write-Host ""
     Write-Host "Do you want to update/reinstall? (y/N): " -ForegroundColor Yellow -NoNewline
     $response = Read-Host
@@ -50,23 +60,23 @@ if ($TesseractInstalled) {
 }
 
 try {
-    Write-Host "📦 Installing Tesseract OCR to C:\Tesseract-OCR..." -ForegroundColor Yellow
+    Write-Host "📦 Installing Tesseract OCR to Program Files..." -ForegroundColor Yellow
     
     # Remove existing installation
-    if (Test-Path $SystemTesseractPath) {
+    if (Test-Path $ProgramFilesTesseract) {
         Write-Host "🗑️ Removing existing installation..." -ForegroundColor Blue
-        Remove-Item $SystemTesseractPath -Recurse -Force
+        Remove-Item $ProgramFilesTesseract -Recurse -Force
     }
     
-    # Copy Tesseract to C: drive
+    # Copy Tesseract to Program Files
     Write-Host "📁 Copying files..." -ForegroundColor Blue
-    Copy-Item $SourcePath $SystemTesseractPath -Recurse -Force
+    Copy-Item $SourcePath $ProgramFilesTesseract -Recurse -Force
     
     # Add to system PATH
     Write-Host "🔗 Adding to system PATH..." -ForegroundColor Blue
     $currentPath = [Environment]::GetEnvironmentVariable("PATH", "Machine")
-    if ($currentPath -notlike "*$SystemTesseractPath*") {
-        [Environment]::SetEnvironmentVariable("PATH", "$currentPath;$SystemTesseractPath", "Machine")
+    if ($currentPath -notlike "*$ProgramFilesTesseract*") {
+        [Environment]::SetEnvironmentVariable("PATH", "$currentPath;$ProgramFilesTesseract", "Machine")
         Write-Host "✅ Added to system PATH" -ForegroundColor Green
     } else {
         Write-Host "✅ Already in system PATH" -ForegroundColor Green
@@ -74,7 +84,7 @@ try {
     
     Write-Host ""
     Write-Host "🎉 Tesseract OCR installed successfully!" -ForegroundColor Green
-    Write-Host "📍 Location: $SystemTesseractPath" -ForegroundColor Blue
+    Write-Host "📍 Location: $ProgramFilesTesseract" -ForegroundColor Blue
     Write-Host "💡 You may need to restart your terminal/applications to use the new PATH" -ForegroundColor Yellow
     Write-Host ""
     Write-Host "Testing installation..." -ForegroundColor Blue
