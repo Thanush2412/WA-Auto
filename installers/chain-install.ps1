@@ -17,7 +17,7 @@ function Write-ColorText {
 function Write-Step {
     param([string]$Message, [int]$Step, [int]$Total)
     Write-ColorText "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" "Cyan"
-    Write-ColorText "🚀 STEP $Step/$Total: $Message" "Yellow"
+    Write-ColorText "🚀 STEP $Step/$Total`: $Message" "Yellow"
     Write-ColorText "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" "Cyan"
 }
 
@@ -217,7 +217,7 @@ function Start-ChainInstall {
     Write-ColorText "║  ✅ Application configured                                                   ║" "Green"
     Write-ColorText "║  ✅ Desktop shortcut created                                                 ║" "Green"
     Write-ColorText "║                                                                              ║" "Green"
-    Write-ColorText "║  📍 Installation Path: $($InstallPath.PadRight(50)) ║" "Green"
+    Write-ColorText "║  📍 Installation Path`: $InstallPath" "Green"
     Write-ColorText "╚══════════════════════════════════════════════════════════════════════════════╝" "Green"
     Write-Host ""
     
