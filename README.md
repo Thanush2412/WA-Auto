@@ -31,13 +31,13 @@
 **Works in both CMD and PowerShell - Copy and paste:**
 
 ```powershell
-iex (iwr -useb 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/main/simple-install.ps1').Content
+iex (iwr -useb 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/simple-install.ps1').Content
 ```
 
 **Alternative for CMD users:**
 
 ```cmd
-curl -L https://raw.githubusercontent.com/Thanush2412/WA-Auto/main/cmd-install.bat -o install.bat && install.bat
+curl -L https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/cmd-install.bat -o install.bat && install.bat
 ```
 
 **Alternative installation methods:**
@@ -47,13 +47,13 @@ curl -L https://raw.githubusercontent.com/Thanush2412/WA-Auto/main/cmd-install.b
 
 #### Method 2: Direct PowerShell
 ```powershell
-iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/Thanush2412/WA-Auto/main/install.ps1'))
+iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/install.ps1'))
 ```
 
 #### Method 3: Manual Download
 ```powershell
 # Download and run installer
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Thanush2412/WA-Auto/main/install.ps1" -OutFile "install.ps1"
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/install.ps1" -OutFile "install.ps1"
 .\install.ps1
 ```
 
@@ -92,17 +92,25 @@ cd WA-Auto
 
 ```
 WA-Auto/
-├── 📄 README.md                          # This file
-├── 🚀 install.ps1                        # PowerShell installer
-├── 🖥️ start-app.ps1                      # Main launcher script
+├── 📄 README.md                          # Main documentation
+├── � QUICK-INSTALL.md                   # Quick installation guide
+├── ⚡ start-app.ps1                      # Main launcher script
 ├── 📦 package.json                       # Node.js dependencies
-├── ⚡ Start WhatsApp Automation.bat      # Windows launcher
-├── 📋 quick-install.ps1                  # Quick installer
-├── 🐧 install.sh                         # Bash installer
-├── 📖 README-INSTALL.md                  # Installation guide
-├── 🔧 build-portable.js                  # Portable build script
-├── 📦 package-portable.json              # Portable package config
-├── 🛠️ setup-complete-standalone.bat     # Standalone setup
+├── 🖥️ Start WhatsApp Automation.bat      # Windows launcher
+├── � package-portable.json              # Portable package config
+│
+├── 📂 installers/                        # Installation scripts
+│   ├── � simple-install.ps1            # Minimal PowerShell installer
+│   ├── 🖥️ cmd-install.bat               # CMD installer
+│   ├── � install.ps1                   # Full PowerShell installer
+│   ├── ⚡ quick-install.ps1              # Quick installer
+│   ├── � install.sh                    # Bash installer
+│   └── 🌐 universal-install.ps1         # Universal installer
+│
+├── � docs/                              # Documentation
+│   ├── 📖 README-INSTALL.md             # Installation guide
+│   ├── 📖 README-PORTABLE.md            # Portable guide
+│   └── � INSTALLATION-SUCCESS.md       # Success guide
 │
 ├── 📂 src/                               # Source code
 │   ├── 📂 main/                          # Main process files
@@ -121,6 +129,8 @@ WA-Auto/
 ├── 📂 scripts/                           # Automation scripts
 │   ├── 📄 paste.vbs                     # Clipboard automation
 │   ├── 📄 send.vbs                      # Send key automation
+│   ├── 🔧 build-portable.js             # Portable build script
+│   ├── 🛠️ setup-complete-standalone.bat # Standalone setup
 │   └── 📂 python/                       # Python utilities
 │       ├── 📋 requirements.txt          # Python dependencies
 │       ├── 🔍 verify.py                 # Verification script

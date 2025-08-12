@@ -1,5 +1,5 @@
 # Quick One-liner Installer for WhatsApp Automation V2
-# Run this in PowerShell: iex (iwr -useb 'your-url/quick-install.ps1').Content
+# Run this in PowerShell: iex (iwr -useb 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/quick-install.ps1').Content
 
 Clear-Host
 Write-Host "WhatsApp Automation V2 - Quick Install" -ForegroundColor Cyan
@@ -17,7 +17,7 @@ try {
     Set-Location $tempDir
     
     Write-Host "Downloading installer..." -ForegroundColor Yellow
-    $installerUrl = "https://raw.githubusercontent.com/Thanush2412/WA-Auto/main/install.ps1"
+    $installerUrl = "https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/install.ps1"
     (New-Object System.Net.WebClient).DownloadFile($installerUrl, "$tempDir\install.ps1")
     
     Write-Host "Running full installer..." -ForegroundColor Green

@@ -1,7 +1,7 @@
 #!/bin/bash
 # WhatsApp Automation V2 - Cross-platform installer
-# Usage: curl -sSL https://your-domain.com/install.sh | bash
-# Or: wget -qO- https://your-domain.com/install.sh | bash
+# Usage: curl -sSL https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/install.sh | bash
+# Or: wget -qO- https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/install.sh | bash
 
 echo "🚀 WhatsApp Automation V2 - Quick Installer"
 echo "============================================="
@@ -23,7 +23,7 @@ echo "📂 Current directory: $(pwd)"
 echo ""
 
 # Base URL for files (replace with your actual repository)
-BASE_URL="https://raw.githubusercontent.com/Thanush2412/WA-Auto/main"
+BASE_URL="https://raw.githubusercontent.com/Thanush2412/WA-Auto/master"
 
 # Download function
 download_file() {

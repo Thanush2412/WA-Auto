@@ -1,6 +1,6 @@
 @echo off
 :: WhatsApp Automation V2 - Universal Installer (CMD & PowerShell Compatible)
-:: Usage: Simply run this file or use: curl -L https://raw.githubusercontent.com/Thanush2412/WA-Auto/main/cmd-install.bat -o install.bat && install.bat
+:: Usage: curl -L https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/cmd-install.bat -o install.bat && install.bat
 
 title WhatsApp Automation V2 - Universal Installer
 color 0B
@@ -47,9 +47,9 @@ echo ^>^> Downloading essential files...
 echo.
 
 :: Download function using PowerShell (works in CMD)
-call :download_file "https://raw.githubusercontent.com/Thanush2412/WA-Auto/main/start-app.ps1" "start-app.ps1"
-call :download_file "https://raw.githubusercontent.com/Thanush2412/WA-Auto/main/Start WhatsApp Automation.bat" "Start WhatsApp Automation.bat"
-call :download_file "https://raw.githubusercontent.com/Thanush2412/WA-Auto/main/package.json" "package.json"
+call :download_file "https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/start-app.ps1" "start-app.ps1"
+call :download_file "https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/Start WhatsApp Automation.bat" "Start WhatsApp Automation.bat"
+call :download_file "https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/package.json" "package.json"
 
 echo.
 echo ^>^> Checking prerequisites...

@@ -21,7 +21,7 @@ Write-Host "📁 Installing to: $InstallPath" -ForegroundColor Green
 Write-Host ""
 
 # Essential files - guaranteed to work
-$baseUrl = "https://raw.githubusercontent.com/Thanush2412/WA-Auto/main"
+$baseUrl = "https://raw.githubusercontent.com/Thanush2412/WA-Auto/master"
 $files = @(
     "start-app.ps1",
     "Start WhatsApp Automation.bat", 

@@ -1,6 +1,6 @@
 # WhatsApp Automation V2 - Complete One-liner Installer
 # Usage: Run this one command in PowerShell to install everything:
-# iex (iwr -useb 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/main/install.ps1').Content
+# iex (iwr -useb 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/install.ps1').Content
 
 param(
     [string]$InstallPath = "C:\WhatsApp-Automation-V2",
@@ -145,7 +145,7 @@ Write-ColorText "OK Project structure created" -Color Green
 Show-Step "Downloading essential files"
 
 # Essential files only - confirmed to exist and needed for basic functionality
-$baseUrl = "https://raw.githubusercontent.com/Thanush2412/WA-Auto/main"
+$baseUrl = "https://raw.githubusercontent.com/Thanush2412/WA-Auto/master"
 $files = @{
     "start-app.ps1" = "$baseUrl/start-app.ps1"
     "Start WhatsApp Automation.bat" = "$baseUrl/Start%20WhatsApp%20Automation.bat"

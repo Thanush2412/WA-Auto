@@ -5,25 +5,25 @@
 ### 🎯 Method 1: PowerShell (Minimal - Recommended)
 **Copy and paste in PowerShell:**
 ```powershell
-iex (iwr -useb 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/main/simple-install.ps1').Content
+iex (iwr -useb 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/simple-install.ps1').Content
 ```
 
 ### 💻 Method 2: CMD/Command Prompt
 **Copy and paste in CMD:**
 ```cmd
-curl -L https://raw.githubusercontent.com/Thanush2412/WA-Auto/main/cmd-install.bat -o install.bat && install.bat
+curl -L https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/cmd-install.bat -o install.bat && install.bat
 ```
 
 ### 🔧 Method 3: PowerShell (Full Installation)
 **For complete project setup:**
 ```powershell
-iex (iwr -useb 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/main/install.ps1').Content
+iex (iwr -useb 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/install.ps1').Content
 ```
 
 ### 🔄 Method 4: Alternative PowerShell
 **If Method 1 fails:**
 ```powershell
-iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/Thanush2412/WA-Auto/main/simple-install.ps1'))
+iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/simple-install.ps1'))
 ```k Installation Guide
 
 ## One-Command Installation
@@ -73,7 +73,7 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 **For portable installation:**
 ```powershell
-iex (iwr -useb 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/main/install.ps1').Content -Portable
+iex (iwr -useb 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/install.ps1').Content -Portable
 ```
 
 ---

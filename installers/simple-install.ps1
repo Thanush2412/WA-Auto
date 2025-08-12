@@ -1,5 +1,5 @@
 # WhatsApp Automation V2 - Minimal Installer
-# Usage: iex (iwr -useb 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/main/simple-install.ps1').Content
+# Usage: iex (iwr -useb 'https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/simple-install.ps1').Content
 
 Clear-Host
 Write-Host "🚀 WhatsApp Automation V2 - Minimal Installer" -ForegroundColor Cyan
@@ -12,7 +12,7 @@ Write-Host "📁 Installing to: $InstallPath" -ForegroundColor Green
 Write-Host ""
 
 # Essential files only - confirmed to exist
-$baseUrl = "https://raw.githubusercontent.com/Thanush2412/WA-Auto/main"
+$baseUrl = "https://raw.githubusercontent.com/Thanush2412/WA-Auto/master"
 $essentialFiles = @(
     @{ Name = "start-app.ps1"; Url = "$baseUrl/start-app.ps1" },
     @{ Name = "Start WhatsApp Automation.bat"; Url = "$baseUrl/Start%20WhatsApp%20Automation.bat" },
@@ -95,5 +95,5 @@ if ($successCount -eq $totalFiles) {
     Write-Host "2. Try running as Administrator" -ForegroundColor Gray
     Write-Host "3. Check Windows Firewall/Antivirus settings" -ForegroundColor Gray
     Write-Host "4. Try the CMD installer instead:" -ForegroundColor Gray
-    Write-Host "   curl -L https://raw.githubusercontent.com/Thanush2412/WA-Auto/main/cmd-install.bat -o install.bat && install.bat" -ForegroundColor Yellow
+    Write-Host "   curl -L https://raw.githubusercontent.com/Thanush2412/WA-Auto/master/installers/cmd-install.bat -o install.bat && install.bat" -ForegroundColor Yellow
 }
