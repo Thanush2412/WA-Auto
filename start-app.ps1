@@ -1,4 +1,30 @@
 # WhatsApp Automation V2 - PowerShell Startup Manager
+
+# Function to check administrator privileges
+function Test-Administrator {
+    $currentUser = [Security.Principal.WindowsIdentity]::GetCurrent()
+    $principal = New-Object Security.Principal.WindowsPrincipal($currentUser)
+    return $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+}
+
+# Check if running as administrator and restart if needed
+if (-not (Test-Administrator)) {
+    Write-Host "🔐 Administrator privileges required for full installation..." -ForegroundColor Yellow
+    Write-Host "🔄 Restarting with administrator privileges..." -ForegroundColor Cyan
+    
+    try {
+        $scriptPath = $MyInvocation.MyCommand.Path
+        Start-Process PowerShell -Verb RunAs -ArgumentList "-ExecutionPolicy Bypass -File `"$scriptPath`""
+        exit
+    } catch {
+        Write-Host "❌ Failed to restart with admin privileges. Please run as administrator manually." -ForegroundColor Red
+        Write-Host "Press any key to continue with limited functionality..." -ForegroundColor Yellow
+        $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+    }
+} else {
+    Write-Host "✅ Running with administrator privileges" -ForegroundColor Green
+}
+
 # Enable colors and clear screen
 $Host.UI.RawUI.WindowTitle = "WhatsApp Automation V2 - Startup Manager"
 Clear-Host
