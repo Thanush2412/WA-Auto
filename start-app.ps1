@@ -47,7 +47,7 @@ Write-ColorText "#" * 100 -Color Cyan
 Write-Host ""
 
 # Step 1: Check Node.js and npm
-Show-Step "Step 1/4: Checking Node.js and npm installation..."
+Show-Step "Step 1/5: Checking Node.js and npm installation..."
 Write-Host ""
 Write-ColorText ">> Checking Node.js version..." -Color Yellow
 
@@ -76,7 +76,7 @@ try {
 }
 
 # Step 2: Install npm dependencies
-Show-Step "Step 2/4: Installing npm dependencies..."
+Show-Step "Step 2/5: Installing npm dependencies..."
 Write-Host ""
 Write-ColorText ">> Installing Node.js dependencies..." -Color Yellow
 
@@ -97,7 +97,7 @@ try {
 }
 
 # Step 3: Check Python and install requirements
-Show-Step "Step 3/4: Setting up Python environment..."
+Show-Step "Step 3/5: Setting up Python environment..."
 Write-Host ""
 Write-ColorText ">> Checking Python installation..." -Color Yellow
 
@@ -131,9 +131,59 @@ try {
     Write-ColorText ">> Please install Python from https://python.org/" -Color Yellow
 }
 
-# Step 4: Start the application
+# Step 4: Check Tesseract OCR
+Show-Step "Step 4/5: Checking Tesseract OCR..."
+Write-Host ""
+Write-ColorText ">> Checking Tesseract OCR installation..." -Color Yellow
+
+$ProgramFilesTesseract = "C:\Program Files\Tesseract-OCR"
+$ProgramFilesx86Tesseract = "C:\Program Files (x86)\Tesseract-OCR"
+$LocalTesseractPath = "Tesseract-OCR"
+
+$TesseractFound = $false
+$TesseractLocation = ""
+
+if (Test-Path $ProgramFilesTesseract) {
+    $TesseractFound = $true
+    $TesseractLocation = $ProgramFilesTesseract
+    Write-ColorText "OK Tesseract OCR found at: Program Files" -Color Green
+} elseif (Test-Path $ProgramFilesx86Tesseract) {
+    $TesseractFound = $true
+    $TesseractLocation = $ProgramFilesx86Tesseract
+    Write-ColorText "OK Tesseract OCR found at: Program Files (x86)" -Color Green
+} elseif (Test-Path $LocalTesseractPath) {
+    $TesseractFound = $true
+    $TesseractLocation = $LocalTesseractPath
+    Write-ColorText "OK Tesseract OCR found at: Local project folder" -Color Green
+} else {
+    Write-ColorText "! Warning: Tesseract OCR not found" -Color Yellow
+    Write-ColorText ">> OCR features may not work properly" -Color Yellow
+    Write-ColorText ">> Run install-tesseract.ps1 as Administrator to install" -Color Yellow
+}
+
+if ($TesseractFound) {
+    # Try to get version
+    try {
+        $tesseractPath = if ($TesseractLocation -like "*Program Files*") { 
+            Join-Path $TesseractLocation "tesseract.exe" 
+        } else { 
+            Join-Path $TesseractLocation "tesseract.exe" 
+        }
+        
+        if (Test-Path $tesseractPath) {
+            $version = & $tesseractPath --version 2>&1 | Select-Object -First 1
+            Write-ColorText "OK Tesseract version: $version" -Color Green
+        } else {
+            Write-ColorText "OK Tesseract OCR folder found" -Color Green
+        }
+    } catch {
+        Write-ColorText "OK Tesseract OCR available" -Color Green
+    }
+}
+
+# Step 5: Start the application
 function Start-Application {
-Show-Step "Step 4/4: Starting WhatsApp Automation V2..."
+Show-Step "Step 5/5: Starting WhatsApp Automation V2..."
 Write-Host ""
 Write-ColorText ">>> Starting the application..." -Color Green
 Write-ColorText ">>> WhatsApp Automation V2 is launching..." -Color Cyan
