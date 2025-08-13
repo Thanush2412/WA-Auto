@@ -14,236 +14,6 @@ const AdmZip = require('adm-zip');
 // Import MongoDB service
 const db = require('../../database/mongodb');
 
-// Python portable setup functions
-async function downloadFile(url, destination) {
-  return new Promise((resolve, reject) => {
-    const file = fs.createWriteStream(destination);
-    https.get(url, (response) => {
-      if (response.statusCode === 302 || response.statusCode === 301) {
-        // Handle redirects
-        return downloadFile(response.headers.location, destination).then(resolve).catch(reject);
-      }
-      response.pipe(file);
-      file.on('finish', () => {
-        file.close();
-        resolve();
-      });
-      file.on('error', reject);
-    }).on('error', reject);
-  });
-}
-
-async function setupPortablePython() {
-  // Determine the correct base directory
-  let baseDir;
-  if (app.isPackaged) {
-    // In production, use the userData directory for downloads
-    baseDir = app.getPath('userData');
-  } else {
-    // In development, use the current directory
-    baseDir = __dirname;
-  }
-  
-  const pythonDir = path.join(baseDir, 'python-portable');
-  const pythonExe = path.join(pythonDir, 'python.exe');
-  
-  // Check if Python is already set up
-  if (fs.existsSync(pythonExe)) {
-    log.info('Portable Python already exists, skipping setup');
-    return pythonExe;
-  }
-  
-  try {
-    log.info('Setting up portable Python for first run...');
-    
-    // Notify renderer about setup progress
-    if (mainWindow) {
-      mainWindow.webContents.send('python-setup-progress', 'Starting Python setup...');
-    }
-    
-    // Create python-portable directory
-    if (!fs.existsSync(pythonDir)) {
-      fs.mkdirSync(pythonDir, { recursive: true });
-    }
-    
-    // Download Python embeddable zip
-    const pythonZipPath = path.join(pythonDir, 'python.zip');
-    log.info('Downloading Python portable...');
-    if (mainWindow) {
-      mainWindow.webContents.send('python-setup-progress', 'Downloading Python...');
-    }
-    await downloadFile('https://www.python.org/ftp/python/3.11.9/python-3.11.9-embed-amd64.zip', pythonZipPath);
-    
-    // Extract Python
-    log.info('Extracting Python...');
-    if (mainWindow) {
-      mainWindow.webContents.send('python-setup-progress', 'Extracting Python...');
-    }
-    const zip = new AdmZip(pythonZipPath);
-    zip.extractAllTo(pythonDir, true);
-    fs.unlinkSync(pythonZipPath); // Clean up zip file
-    
-    // Download get-pip.py
-    const getPipPath = path.join(pythonDir, 'get-pip.py');
-    log.info('Downloading pip installer...');
-    if (mainWindow) {
-      mainWindow.webContents.send('python-setup-progress', 'Downloading pip installer...');
-    }
-    await downloadFile('https://bootstrap.pypa.io/get-pip.py', getPipPath);
-    
-    // Enable site-packages
-    const pthFile = path.join(pythonDir, 'python311._pth');
-    if (fs.existsSync(pthFile)) {
-      const pthContent = fs.readFileSync(pthFile, 'utf8');
-      if (!pthContent.includes('import site')) {
-        fs.appendFileSync(pthFile, '\nimport site\n');
-      }
-    }
-    
-    // Install pip
-    log.info('Installing pip...');
-    if (mainWindow) {
-      mainWindow.webContents.send('python-setup-progress', 'Installing pip...');
-    }
-    await new Promise((resolve, reject) => {
-      exec(`"${pythonExe}" "${getPipPath}" --no-warn-script-location`, { cwd: pythonDir }, (error, stdout, stderr) => {
-        if (error) {
-          log.error('Error installing pip:', error);
-          reject(error);
-        } else {
-          log.info('Pip installed successfully');
-          resolve();
-        }
-      });
-    });
-    
-    // Install required packages
-    const packages = [
-      'pillow>=9.0.0',
-      'pyautogui>=0.9.53',
-      'pygetwindow>=0.0.9',
-      'pytesseract>=0.3.8',
-      'requests>=2.28.0',
-      'pytz>=2022.1'
-    ];
-    
-    for (const pkg of packages) {
-      log.info(`Installing ${pkg}...`);
-      if (mainWindow) {
-        mainWindow.webContents.send('python-setup-progress', `Installing ${pkg}...`);
-      }
-      await new Promise((resolve, reject) => {
-        exec(`"${pythonExe}" -m pip install "${pkg}" --no-warn-script-location`, { cwd: pythonDir }, (error, stdout, stderr) => {
-          if (error) {
-            log.error(`Error installing ${pkg}:`, error);
-            reject(error);
-          } else {
-            log.info(`${pkg} installed successfully`);
-            resolve();
-          }
-        });
-      });
-    }
-    
-    // Set up Tesseract OCR
-    await setupTesseract(baseDir);
-    
-    log.info('Portable Python setup completed successfully!');
-    if (mainWindow) {
-      mainWindow.webContents.send('python-setup-progress', 'Setup complete! Ready to use.');
-    }
-    return pythonExe;
-    
-  } catch (error) {
-    log.error('Error setting up portable Python:', error);
-    if (mainWindow) {
-      mainWindow.webContents.send('python-setup-progress', `Error: ${error.message}`);
-    }
-    throw error;
-  }
-}
-
-async function setupTesseract(baseDir) {
-  const tesseractDir = path.join(baseDir, 'tesseract-ocr');
-  const tesseractExe = path.join(tesseractDir, 'tesseract.exe');
-  
-  // Check if Tesseract is already set up
-  if (fs.existsSync(tesseractExe)) {
-    log.info('Tesseract OCR already exists, skipping setup');
-    return tesseractExe;
-  }
-  
-  try {
-    log.info('Setting up Tesseract OCR...');
-    if (mainWindow) {
-      mainWindow.webContents.send('python-setup-progress', 'Downloading Tesseract OCR...');
-    }
-    
-    // Create tesseract directory
-    if (!fs.existsSync(tesseractDir)) {
-      fs.mkdirSync(tesseractDir, { recursive: true });
-    }
-    
-    // Download Tesseract installer
-    const tesseractInstallerPath = path.join(tesseractDir, 'tesseract-installer.exe');
-    log.info('Downloading Tesseract OCR installer...');
-    await downloadFile('https://github.com/UB-Mannheim/tesseract/releases/download/v5.3.3.20231005/tesseract-ocr-w64-setup-5.3.3.20231005.exe', tesseractInstallerPath);
-    
-    // Extract/Install Tesseract using silent installation
-    log.info('Installing Tesseract OCR...');
-    if (mainWindow) {
-      mainWindow.webContents.send('python-setup-progress', 'Installing Tesseract OCR...');
-    }
-    
-    await new Promise((resolve, reject) => {
-      exec(`"${tesseractInstallerPath}" /S /D="${tesseractDir}"`, (error, stdout, stderr) => {
-        if (error) {
-          log.error('Error installing Tesseract:', error);
-          reject(error);
-        } else {
-          log.info('Tesseract installed successfully');
-          resolve();
-        }
-      });
-    });
-    
-    // Clean up installer
-    if (fs.existsSync(tesseractInstallerPath)) {
-      fs.unlinkSync(tesseractInstallerPath);
-    }
-    
-    log.info('Tesseract OCR setup completed!');
-    return tesseractExe;
-    
-  } catch (error) {
-    log.error('Error setting up Tesseract:', error);
-    // Don't throw error - app can work without Tesseract
-    return null;
-  }
-}
-
-async function getPythonExecutable() {
-  // Determine the correct base directory
-  let baseDir;
-  if (app.isPackaged) {
-    // In production, use the userData directory for downloads
-    baseDir = app.getPath('userData');
-  } else {
-    // In development, use the current directory
-    baseDir = __dirname;
-  }
-  
-  const pythonDir = path.join(baseDir, 'python-portable');
-  const pythonExe = path.join(pythonDir, 'python.exe');
-  
-  if (fs.existsSync(pythonExe)) {
-    return pythonExe;
-  }
-  
-  // Try to set up portable Python
-  return await setupPortablePython();
-}
-
 // Configure logging
 
 // Configure logging
@@ -1077,7 +847,14 @@ ipcMain.on('open-whatsapp', async (event, url, shouldPaste = false) => {
     if (shouldPaste) {
       setTimeout(() => {
         log.info('Running paste.vbs to simulate Ctrl+V...');
-        const pasteScript = path.join(__dirname, '../../scripts/paste.vbs');
+        let pasteScript;
+        if (app.isPackaged) {
+          // In production, use VBS from resources
+          pasteScript = path.join(process.resourcesPath, 'scripts', 'paste.vbs');
+        } else {
+          // In development, use VBS from project directory
+          pasteScript = path.join(__dirname, '../../scripts/paste.vbs');
+        }
         exec(`cscript //nologo "${pasteScript}"`, (error, stdout, stderr) => {
           if (error) {
             log.error('Error executing paste.vbs:', error);
@@ -1087,7 +864,14 @@ ipcMain.on('open-whatsapp', async (event, url, shouldPaste = false) => {
           log.info('Paste simulated via VBS. Waiting 3 seconds to send (Enter)...');
           setTimeout(() => {
             log.info('Running send.vbs to simulate Enter...');
-            const sendScript = path.join(__dirname, '../../scripts/send.vbs');
+            let sendScript;
+            if (app.isPackaged) {
+              // In production, use VBS from resources
+              sendScript = path.join(process.resourcesPath, 'scripts', 'send.vbs');
+            } else {
+              // In development, use VBS from project directory
+              sendScript = path.join(__dirname, '../../scripts/send.vbs');
+            }
             exec(`cscript //nologo "${sendScript}"`, (error2, stdout2, stderr2) => {
               if (error2) {
                 log.error('Error executing send.vbs:', error2);
@@ -1461,8 +1245,15 @@ ipcMain.handle('verify-screenshot-timestamp', async (event) => {
     
     return new Promise(async (resolve, reject) => {
       try {
-        // Get the portable Python executable
-        const pythonExe = "python"; // Use system Python
+        // Use portable Python from the application directory
+        let pythonExe;
+        if (app.isPackaged) {
+          // In production, use portable Python from resources
+          pythonExe = path.join(process.resourcesPath, 'python-portable', 'python.exe');
+        } else {
+          // In development, use portable Python from project directory
+          pythonExe = path.join(__dirname, '../../python-portable/python.exe');
+        }
         
         const pythonProcess = spawn(pythonExe, [pythonScript, ...args], {
         stdio: ['pipe', 'pipe', 'pipe'],
@@ -1955,8 +1746,15 @@ const verificationHandler = {
         
         log.info(`Starting verification for ${phoneNumber}`);
         
-        // Get the portable Python executable
-        const pythonExe = "python"; // Use system Python
+        // Use portable Python from the application directory
+        let pythonExe;
+        if (app.isPackaged) {
+          // In production, use portable Python from resources
+          pythonExe = path.join(process.resourcesPath, 'python-portable', 'python.exe');
+        } else {
+          // In development, use portable Python from project directory
+          pythonExe = path.join(__dirname, '../../python-portable/python.exe');
+        }
         
         const pythonProcess = spawn(pythonExe, [pythonScript, ...args], {
           stdio: ['pipe', 'pipe', 'pipe']

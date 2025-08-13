@@ -16,8 +16,10 @@ import requests
 from datetime import datetime
 import pytz
 
-# Set the Tesseract path for Windows (system installation)
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+# Set the Tesseract path to use the local installation in the main directory
+script_dir = os.path.dirname(os.path.abspath(__file__))
+tesseract_path = os.path.join(script_dir, '..', '..', 'Tesseract-OCR', 'tesseract.exe')
+pytesseract.pytesseract.tesseract_cmd = tesseract_path
 
 # --- CROP AREA ADJUSTMENT ---
 # You can adjust these values if the OCR is not reading the textbox area correctly on your screen.
